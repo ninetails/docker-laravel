@@ -1,6 +1,6 @@
 FROM php:fpm
 
-ENV TIMEZONE America/Sao_Paulo
+ENV TIMEZONE Etc/UTC
 ENV PHP_SRC_DIR /usr/src/php
 ENV PHP_INI_DIR /usr/local/etc/php
 
