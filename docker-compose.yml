@@ -10,17 +10,18 @@ services:
       - "443:443"
     volumes:
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - ./src:/var/www/html
+      - ./src:/var/www
 
   fpm:
     build: .
+    user: "${FPM_UID}"
     ports:
       - "9000:9000"
-    volumes:
-      - ./src:/var/www/html
     links:
       - db:mysql
-    user: "${FPM_UID}"
+    volumes:
+      - ./src:/var/www
+      - ~/.composer:/.composer
 
   db:
     image: mariadb
