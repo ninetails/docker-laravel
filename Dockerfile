@@ -36,8 +36,9 @@ RUN buildDeps=" \
 	&& docker-php-ext-install mcrypt \
 	&& docker-php-ext-install mysqli \
 	&& docker-php-ext-install pdo_mysql \
-	&& docker-php-ext-install v8js \
 	&& docker-php-ext-install zip \
+	&& pecl install xdebug-beta \
+	&& docker-php-ext-enable xdebug \
 	&& apt-get purge -y --auto-remove $buildDeps \
 	&& cd /usr/src/php \
 	&& make clean
