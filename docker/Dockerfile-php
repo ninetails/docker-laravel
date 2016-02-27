@@ -1,11 +1,16 @@
 FROM php:fpm
 
-ENV TIMEZONE America/Sao_Paulo
 ENV PHP_SRC_DIR /usr/src/php
 ENV PHP_INI_DIR /usr/local/etc/php
 
+# Load custom env file
+COPY .env .env
+
 # Set timezone
-RUN echo $TIMEZONE > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata
+RUN export `cat .env` \
+	&& rm .env \
+	&& echo $TIMEZONE > /etc/timezone \
+	&& dpkg-reconfigure --frontend noninteractive tzdata
 
 # https://hub.docker.com/r/tommylau/php/~/dockerfile/
 # Fix docker-php-ext-install script error
