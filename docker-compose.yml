@@ -20,6 +20,7 @@ services:
       - ./src:/var/www/html
     links:
       - db:mysql
+    user: "${FPM_UID}"
 
   db:
     image: mariadb
