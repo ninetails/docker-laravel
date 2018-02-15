@@ -1,4 +1,4 @@
-FROM php:fpm
+FROM php:5.6-fpm
 
 ENV PHP_SRC_DIR /usr/src/php
 ENV PHP_INI_DIR /usr/local/etc/php
@@ -37,21 +37,8 @@ RUN buildDeps=" \
 	&& docker-php-ext-install mysqli \
 	&& docker-php-ext-install pdo_mysql \
 	&& docker-php-ext-install zip \
-	&& pecl install xdebug-beta \
-	&& docker-php-ext-enable xdebug \
-	&& apt-get purge -y --auto-remove $buildDeps \
-	&& cd /usr/src/php \
-	&& make clean
+	&& apt-get purge -y --auto-remove $buildDeps
 
 # Install Composer for Laravel
 RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer
-
-# Copy php.ini
-RUN cat $PHP_SRC_DIR/php.ini-production > $PHP_INI_DIR/php.ini
-
-# Disable cgi.fix_pathinfo in php.ini
-RUN sed -i 's/;\(cgi\.fix_pathinfo=\)1/\10/' /usr/local/etc/php/php.ini
-
-# Set timezone pt2
-RUN sed -i "s@^;date.timezone =.*@date.timezone = $TIMEZONE@" $PHP_INI_DIR/php.ini

@@ -1,3 +1,3 @@
 #!/bin/sh
-docker-compose stop \
-  && docker-compose rm
+FPM_UID=$UID docker-compose stop \
+  && FPM_UID=$UID docker-compose rm
